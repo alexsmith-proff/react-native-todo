@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import NavBar from './src/components/NavBar/NavBar';
+import TodoList from './src/components/TodoList/TodoList';
+import AddTodo from './src/components/AddTodo/AddTodo';
 
 export default function App() {
+  const [todos, setTodos] = useState([])
+  const handleSubmit = (text) => {
+    setTodos([...todos, { id: Date.now().toString(), title: text }])
+    console.log(todos);
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <NavBar title={'Todo App'} />
+      <View style={s.container}>
+        <AddTodo onSubmit={handleSubmit} />
+        <TodoList todos={todos} />
+      </View>
     </View>
-  );
+  )  
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    padding: 20
+  }
+})
